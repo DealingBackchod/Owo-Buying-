@@ -1,252 +1,139 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buy OwO Coins - Packing Animation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Buy OwO Coins</title>
   <style>
     body {
-      margin:0; padding:0;
-      font-family: 'Inter', sans-serif;
-      background: #f5f7fa;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f4f8;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      color: #222;
     }
+
     .container {
       background: white;
-      width: 400px;
-      border-radius: 12px;
       padding: 30px;
-      box-shadow: 0 8px 25px rgb(0 0 0 / 0.1);
-      box-sizing: border-box;
-      position: relative;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
       text-align: center;
+      color: #333;
+      margin-bottom: 20px;
     }
-    h1 {
-      margin-bottom: 25px;
-      font-weight: 600;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
+
+    .prices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 15px;
-      pointer-events: auto;
+      margin-bottom: 25px;
     }
-    label {
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #444;
-    }
-    input {
-      padding: 12px;
+
+    .price-card {
+      background: #f0f0f0;
+      padding: 15px;
       border-radius: 8px;
-      border: 1.5px solid #ccc;
-      font-size: 1rem;
-      outline-offset: 2px;
-      transition: border-color 0.25s ease;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
     }
-    input:focus {
+
+    .price-card:hover {
+      background: #e0e0e0;
+    }
+
+    .price-card.active {
       border-color: #4a90e2;
-      box-shadow: 0 0 8px #a3c1ff88;
+      background: #d6eaff;
     }
-    button {
-      margin-top: 15px;
-      padding: 14px;
-      border: none;
+
+    #payButton {
+      width: 100%;
       background: #4a90e2;
       color: white;
-      font-weight: 700;
+      padding: 14px;
       font-size: 1.1rem;
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
+      transition: 0.3s;
     }
-    button:hover:not(:disabled) {
-      background-color: #357acc;
-    }
-    button:disabled {
-      background-color: #aac6f7;
+
+    #payButton:disabled {
+      background: #aacaf4;
       cursor: not-allowed;
     }
 
-    /* Packing animation container */
-    .packing-container {
-      position: absolute;
-      inset: 0;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgb(0 0 0 / 0.1);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 10;
-    }
-    .packing-container.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Box for animation */
-    .box {
-      width: 120px;
-      height: 90px;
-      background: #4a90e2;
-      border-radius: 10px 10px 8px 8px;
-      position: relative;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transform-style: preserve-3d;
-      animation: boxPack 3s ease forwards;
-      margin-bottom: 20px;
-    }
-    /* Box top flaps */
-    .box::before, .box::after {
-      content: "";
-      position: absolute;
-      top: -12px;
-      width: 60px;
-      height: 12px;
-      background: #3a78d6;
-      border-radius: 4px 4px 0 0;
-      transform-origin: bottom center;
-      transform-style: preserve-3d;
-      backface-visibility: hidden;
-    }
-    .box::before {
-      left: 0;
-      transform: rotateX(90deg);
-      animation: flapLeft 3s ease forwards;
-      animation-delay: 0.5s;
-    }
-    .box::after {
-      right: 0;
-      transform: rotateX(90deg);
-      animation: flapRight 3s ease forwards;
-      animation-delay: 0.7s;
-    }
-
-    /* Animations */
-    @keyframes boxPack {
-      0% {
-        transform: rotateX(0deg) rotateY(0deg) translateY(0);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      }
-      50% {
-        transform: rotateX(15deg) rotateY(25deg) translateY(-10px);
-        box-shadow: 0 12px 20px rgba(0,0,0,0.3);
-      }
-      100% {
-        transform: rotateX(0deg) rotateY(0deg) translateY(0);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      }
-    }
-    @keyframes flapLeft {
-      0% {
-        transform: rotateX(90deg);
-      }
-      100% {
-        transform: rotateX(0deg);
-      }
-    }
-    @keyframes flapRight {
-      0% {
-        transform: rotateX(90deg);
-      }
-      100% {
-        transform: rotateX(0deg);
-      }
-    }
-
-    /* Success message */
-    .success-message {
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #217821;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      user-select: none;
-    }
-    .success-message.show {
-      opacity: 1;
-      transform: translateY(0);
+    .upi-id {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="container" role="main" aria-live="polite">
-    <h1>Buy OwO Coins</h1>
 
-    <form id="buyForm" novalidate>
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required autocomplete="name" />
+<div class="container">
+  <h2>Buy OwO Coins</h2>
 
-      <label for="discord">Discord Username (e.g. OwO#1234)</label>
-      <input type="text" id="discord" name="discord" placeholder="Your Discord username" required />
-
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" placeholder="example@mail.com" required autocomplete="email" />
-
-      <label for="utr">Payment UTR ID</label>
-      <input type="text" id="utr" name="utr" placeholder="Enter UTR / Transaction ID" required />
-
-      <label for="payoutname">Your UPI Name</label>
-      <input type="text" id="payoutname" name="payoutname" placeholder="Your UPI Account Name" required />
-
-      <button type="submit" id="submitBtn">Submit & Confirm</button>
-    </form>
-
-    <div class="packing-container" id="packingContainer" aria-live="assertive" role="alert" aria-atomic="true">
-      <div class="box" aria-hidden="true"></div>
-      <div class="success-message" id="successMessage">🎉 Your order has been packed and is on its way!</div>
-    </div>
+  <div class="prices" id="priceList">
+    <div class="price-card" data-amount="20">₹20 = 3M</div>
+    <div class="price-card" data-amount="50">₹50 = 6M</div>
+    <div class="price-card" data-amount="100">₹100 = 11M</div>
+    <div class="price-card" data-amount="150">₹150 = 22M</div>
+    <div class="price-card" data-amount="200">₹200 = 33M</div>
   </div>
 
-  <script>
-    const form = document.getElementById('buyForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const packingContainer = document.getElementById('packingContainer');
-    const successMessage = document.getElementById('successMessage');
+  <button id="payButton" disabled>Pay Now</button>
+  <div class="upi-id">Pay to UPI ID: <b>hakimiwashifali@fam</b></div>
+</div>
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
+<script>
+  const priceCards = document.querySelectorAll(".price-card");
+  const payButton = document.getElementById("payButton");
 
-      // Basic validation (can be improved)
-      if(!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+  let selectedAmount = null;
 
-      // Disable form and button
-      submitBtn.disabled = true;
-      Array.from(form.elements).forEach(el => el.disabled = true);
+  priceCards.forEach(card => {
+    card.addEventListener("click", () => {
+      // Remove previous selection
+      priceCards.forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
 
-      // Show packing animation
-      packingContainer.classList.add('active');
-
-      // After 4 seconds, hide animation, show success message & reset form
-      setTimeout(() => {
-        successMessage.classList.add('show');
-      }, 3000);
-
-      setTimeout(() => {
-        packingContainer.classList.remove('active');
-        successMessage.classList.remove('show');
-        submitBtn.disabled = false;
-        Array.from(form.elements).forEach(el => el.disabled = false);
-        form.reset();
-      }, 7000);
+      selectedAmount = card.getAttribute("data-amount");
+      payButton.disabled = false;
+      payButton.innerText = `Pay ₹${selectedAmount} Now`;
     });
-  </script>
+  });
+
+  payButton.addEventListener("click", () => {
+    const upiId = "hakimiwashifali@fam";
+    const name = "OwO Store";
+    const note = "OwO Coin Purchase";
+    const currency = "INR";
+
+    const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&tn=${encodeURIComponent(note)}&am=${selectedAmount}&cu=${currency}`;
+
+    // Copy UPI ID
+    navigator.clipboard.writeText(upiId).then(() => {
+      alert("UPI ID copied to clipboard. Redirecting to UPI App...");
+    });
+
+    // Redirect to payment app
+    window.location.href = upiLink;
+  });
+</script>
+
 </body>
 </html>
